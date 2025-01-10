@@ -9,6 +9,8 @@ import com.ll.springdoc20250109.global.dto.PageDto;
 import com.ll.springdoc20250109.global.exceptions.ServiceException;
 import com.ll.springdoc20250109.global.rq.Rq;
 import com.ll.springdoc20250109.global.rsData.RsData;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/posts")
 @RequiredArgsConstructor
+@Tag(name = "ApiV1PostController", description = "API 글 컨트롤러")
 public class ApiV1PostController {
     private final PostService postService;
     private final Rq rq;
@@ -40,6 +43,7 @@ public class ApiV1PostController {
 
     @GetMapping("/statistics")
     @Transactional(readOnly = true)
+    @Operation(summary = "통계정보")
     public PostStatisticsResBody statistics() {
         Member actor = rq.getActor();
 
@@ -48,6 +52,7 @@ public class ApiV1PostController {
 
     @GetMapping("/mine")
     @Transactional(readOnly = true)
+    @Operation(summary = "내 글 다건 조회")
     public PageDto<PostDto> mine(
             @RequestParam(defaultValue = "title") String searchKeywordType,
             @RequestParam(defaultValue = "") String searchKeyword,
@@ -63,6 +68,7 @@ public class ApiV1PostController {
 
     @GetMapping
     @Transactional(readOnly = true)
+    @Operation(summary = "공개글 다건 조회")
     public PageDto<PostDto> items(
             @RequestParam(defaultValue = "title") String searchKeywordType,
             @RequestParam(defaultValue = "") String searchKeyword,
@@ -75,6 +81,7 @@ public class ApiV1PostController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "단건 조회", description = "비밀글은 작성자만 조회 가능")
     @Transactional(readOnly = true)
     public PostWithContentDto item(@PathVariable long id) {
         Post post = postService.findById(id).get();
@@ -106,6 +113,7 @@ public class ApiV1PostController {
 
     @PostMapping
     @Transactional
+    @Operation(summary = "글 작성")
     public RsData<PostWithContentDto> write(@RequestBody @Valid PostWriteReqBody reqBody) {
         Member actor = rq.findByActor().get();
 
@@ -138,6 +146,7 @@ public class ApiV1PostController {
 
     @PutMapping("/{id}")
     @Transactional
+    @Operation(summary = "글 수정")
     public RsData<PostWithContentDto> modify(@PathVariable long id, @RequestBody @Valid PostModifyReqBody reqBody) {
         Member actor = this.rq.getActor();
 
@@ -158,6 +167,7 @@ public class ApiV1PostController {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @Operation(summary = "글 삭제")
     public RsData<Void> delete(@PathVariable long id) {
         Member member = rq.getActor();
 
