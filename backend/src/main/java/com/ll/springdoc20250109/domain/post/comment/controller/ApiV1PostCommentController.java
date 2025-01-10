@@ -9,6 +9,8 @@ import com.ll.springdoc20250109.domain.post.post.service.PostService;
 import com.ll.springdoc20250109.global.exceptions.ServiceException;
 import com.ll.springdoc20250109.global.rq.Rq;
 import com.ll.springdoc20250109.global.rsData.RsData;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/posts/{postId}/comments")
+@Tag(name = "ApiV1PostCommentController", description = "API 댓글 컨트롤러")
 public class ApiV1PostCommentController {
     private final PostService postService;
     private final PostRepository postRepository;
@@ -34,6 +37,7 @@ public class ApiV1PostCommentController {
 
     @GetMapping
     @Transactional(readOnly = true)
+    @Operation(summary = "다건조회")
     public List<PostCommentDto> items(@PathVariable long postId) {
         Post post = postService.findById(postId).orElseThrow(
                 () -> new ServiceException("404-1", "%d번 글은 존재하지 않습니다.".formatted(postId))
@@ -48,6 +52,7 @@ public class ApiV1PostCommentController {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @Operation(summary = "삭제")
     public RsData<Void> delete(@PathVariable long postId, @PathVariable long id) {
         Member actor = rq.getActor();
 
@@ -78,6 +83,7 @@ public class ApiV1PostCommentController {
 
     @PutMapping("/{id}")
     @Transactional
+    @Operation(summary = "수정")
     public RsData<PostCommentDto> modify(@PathVariable long postId, @PathVariable long id,
                                          @RequestBody @Valid PostCommentModifyReqBody reqBody) {
         Member actor = rq.getActor();
@@ -110,6 +116,7 @@ public class ApiV1PostCommentController {
 
     @PostMapping
     @Transactional
+    @Operation(summary = "작성")
     public RsData<PostCommentDto> write(@PathVariable long postId,
                                         @RequestBody @Valid PostCommentWriteReqBody reqBody) {
         Member actor = rq.getActor();
