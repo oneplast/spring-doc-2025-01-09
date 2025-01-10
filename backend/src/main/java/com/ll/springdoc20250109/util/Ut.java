@@ -85,12 +85,10 @@ public class Ut {
                 HttpClient client = HttpClient.newBuilder()
                         .followRedirects(HttpClient.Redirect.NORMAL)
                         .build();
-
                 HttpRequest request = HttpRequest.newBuilder()
                         .uri(URI.create(url))
                         .GET()
                         .build();
-
                 // 먼저 헤더만 가져오기 위한 HEAD 요청
                 HttpResponse<Void> headResponse = client.send(
                         HttpRequest.newBuilder(URI.create(url))
@@ -98,7 +96,6 @@ public class Ut {
                                 .build(),
                         HttpResponse.BodyHandlers.discarding()
                 );
-
                 // 실제 파일 다운로드
                 HttpResponse<Path> response = client.send(request,
                         HttpResponse.BodyHandlers.ofFile(
@@ -158,7 +155,6 @@ public class Ut {
                     })
                     .orElse("");
         }
-
     }
 
     public static class cmd {
@@ -171,6 +167,7 @@ public class Ut {
         public static void run(String cmd) {
             try {
                 ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", cmd);
+                processBuilder.inheritIO();
                 Process process = processBuilder.start();
                 process.waitFor(1, TimeUnit.MINUTES);
             } catch (Exception e) {
