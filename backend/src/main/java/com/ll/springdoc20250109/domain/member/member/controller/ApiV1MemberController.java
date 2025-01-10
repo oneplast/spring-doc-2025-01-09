@@ -1,5 +1,6 @@
 package com.ll.springdoc20250109.domain.member.member.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ll.springdoc20250109.domain.member.member.dto.MemberDto;
 import com.ll.springdoc20250109.domain.member.member.entity.Member;
 import com.ll.springdoc20250109.domain.member.member.service.AuthTokenService;
@@ -8,6 +9,7 @@ import com.ll.springdoc20250109.global.exceptions.ServiceException;
 import com.ll.springdoc20250109.global.rq.Rq;
 import com.ll.springdoc20250109.global.rsData.RsData;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/members")
 @Tag(name = "ApiV1MemberController", description = "API 회원 컨트롤러")
+@SecurityRequirement(name = "bearerAuth")
 public class ApiV1MemberController {
     private final MemberService memberService;
     private final AuthTokenService authTokenService;
@@ -59,7 +62,9 @@ public class ApiV1MemberController {
 
     record MemberLoginResBody(
             MemberDto item,
+            @JsonIgnore
             String apiKey,
+            @JsonIgnore
             String accessToken
     ) {
     }

@@ -10,6 +10,7 @@ import com.ll.springdoc20250109.global.exceptions.ServiceException;
 import com.ll.springdoc20250109.global.rq.Rq;
 import com.ll.springdoc20250109.global.rsData.RsData;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/posts/{postId}/comments")
 @Tag(name = "ApiV1PostCommentController", description = "API 댓글 컨트롤러")
+@SecurityRequirement(name = "bearerAuth")
 public class ApiV1PostCommentController {
     private final PostService postService;
     private final PostRepository postRepository;
