@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import javax.crypto.SecretKey;
 import lombok.SneakyThrows;
 
@@ -156,6 +157,25 @@ public class Ut {
                         };
                     })
                     .orElse("");
+        }
+
+    }
+
+    public static class cmd {
+        public static void runAsync(String cmd) {
+            new Thread(() -> {
+                run(cmd);
+            }).start();
+        }
+
+        public static void run(String cmd) {
+            try {
+                ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", cmd);
+                Process process = processBuilder.start();
+                process.waitFor(1, TimeUnit.MINUTES);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
