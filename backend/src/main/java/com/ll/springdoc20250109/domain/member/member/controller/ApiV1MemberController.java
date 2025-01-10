@@ -7,6 +7,8 @@ import com.ll.springdoc20250109.domain.member.member.service.MemberService;
 import com.ll.springdoc20250109.global.exceptions.ServiceException;
 import com.ll.springdoc20250109.global.rq.Rq;
 import com.ll.springdoc20250109.global.rsData.RsData;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/members")
+@Tag(name = "ApiV1MemberController", description = "API 회원 컨트롤러")
 public class ApiV1MemberController {
     private final MemberService memberService;
     private final AuthTokenService authTokenService;
@@ -38,6 +41,7 @@ public class ApiV1MemberController {
 
     @PostMapping("/join")
     @Transactional
+    @Operation(summary = "회원가입")
     public RsData<MemberDto> join(@RequestBody @Valid MemberJoinReqBody reqBody) {
         Member member = memberService.join(reqBody.username, reqBody.password, reqBody.nickname);
 
@@ -62,6 +66,7 @@ public class ApiV1MemberController {
 
     @PostMapping("/login")
     @Transactional(readOnly = true)
+    @Operation(summary = "로그인", description = "apiKey, accessToken 을 발급합니다. 해당 토큰들은 쿠키(HTTP-ONLY)로도 전달됩니다.")
     public RsData<MemberLoginResBody> login(@RequestBody @Valid MemberLoginReqBody reqBody) {
         Member member = memberService.findByUsername(reqBody.username).orElseThrow(() ->
                 new ServiceException("401-1", "존재하지 않는 사용자입니다."));
@@ -81,6 +86,7 @@ public class ApiV1MemberController {
 
     @DeleteMapping("/logout")
     @Transactional(readOnly = true)
+    @Operation(summary = "로그아웃", description = "apiKey, accessToken 을 제거합니다.")
     public RsData<Void> logout() {
         rq.deleteCookie("accessToken");
         rq.deleteCookie("apiKey");
@@ -93,6 +99,7 @@ public class ApiV1MemberController {
 
     @GetMapping("/me")
     @Transactional(readOnly = true)
+    @Operation(summary = "내 정보")
     public MemberDto me() {
         Member actor = rq.findByActor().get();
 
