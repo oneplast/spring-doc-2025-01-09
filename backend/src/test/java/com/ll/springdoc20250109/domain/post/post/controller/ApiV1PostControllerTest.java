@@ -14,6 +14,7 @@ import com.ll.springdoc20250109.domain.member.member.entity.Member;
 import com.ll.springdoc20250109.domain.member.member.service.MemberService;
 import com.ll.springdoc20250109.domain.post.post.entity.Post;
 import com.ll.springdoc20250109.domain.post.post.service.PostService;
+import com.ll.springdoc20250109.global.search.SearchKeywordTypeV1;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -514,7 +515,7 @@ public class ApiV1PostControllerTest {
                 )
                 .andDo(print());
 
-        Page<Post> postPage = postService.findByListedPaged(true, "title", "축구", 1, 3);
+        Page<Post> postPage = postService.findByListedPaged(true, SearchKeywordTypeV1.title, "축구", 1, 3);
 
         resultActions
                 .andExpect(handler().handlerType(ApiV1PostController.class))
@@ -553,7 +554,7 @@ public class ApiV1PostControllerTest {
                 )
                 .andDo(print());
 
-        Page<Post> postPage = postService.findByListedPaged(true, "content", "18명", 1, 3);
+        Page<Post> postPage = postService.findByListedPaged(true, SearchKeywordTypeV1.content, "18명", 1, 3);
 
         resultActions
                 .andExpect(handler().handlerType(ApiV1PostController.class))
@@ -641,7 +642,7 @@ public class ApiV1PostControllerTest {
                 .andDo(print());
 
         Page<Post> postPage = postService
-                .findByAuthorPaged(actor, "title", "발야구", 1, 3);
+                .findByAuthorPaged(actor, SearchKeywordTypeV1.title, "발야구", 1, 3);
 
         resultActions
                 .andExpect(handler().handlerType(ApiV1PostController.class))
@@ -685,7 +686,7 @@ public class ApiV1PostControllerTest {
                 .andDo(print());
 
         Page<Post> postPage = postService
-                .findByAuthorPaged(actor, "content", "18명", 1, 3);
+                .findByAuthorPaged(actor, SearchKeywordTypeV1.content, "18명", 1, 3);
 
         resultActions
                 .andExpect(handler().handlerType(ApiV1PostController.class))

@@ -3,6 +3,7 @@ package com.ll.springdoc20250109.domain.post.post.service;
 import com.ll.springdoc20250109.domain.member.member.entity.Member;
 import com.ll.springdoc20250109.domain.post.post.entity.Post;
 import com.ll.springdoc20250109.domain.post.post.repository.PostRepository;
+import com.ll.springdoc20250109.global.search.SearchKeywordTypeV1;
 import com.ll.springdoc20250109.util.Ut;
 import java.util.List;
 import java.util.Optional;
@@ -68,7 +69,7 @@ public class PostService {
 
     public Page<Post> findByListedPaged(
             boolean listed,
-            String searchKeywordType,
+            SearchKeywordTypeV1 searchKeywordType,
             String searchKeyword,
             int page,
             int pageSize
@@ -82,7 +83,7 @@ public class PostService {
         searchKeyword = "%" + searchKeyword + "%";
 
         return switch (searchKeywordType) {
-            case "content" -> postRepository.findByListedAndContentLike(listed, searchKeyword, pageRequest);
+            case SearchKeywordTypeV1.content -> postRepository.findByListedAndContentLike(listed, searchKeyword, pageRequest);
             default -> postRepository.findByListedAndTitleLike(listed, searchKeyword, pageRequest);
         };
     }
@@ -95,7 +96,7 @@ public class PostService {
 
     public Page<Post> findByAuthorPaged(
             Member author,
-            String searchKeywordType,
+            SearchKeywordTypeV1 searchKeywordType,
             String searchKeyword,
             int page,
             int pageSize
@@ -109,7 +110,7 @@ public class PostService {
         searchKeyword = "%" + searchKeyword + "%";
 
         return switch (searchKeywordType) {
-            case "content" -> postRepository.findByAuthorAndContentLike(author, searchKeyword, pageRequest);
+            case SearchKeywordTypeV1.content -> postRepository.findByAuthorAndContentLike(author, searchKeyword, pageRequest);
             default -> postRepository.findByAuthorAndTitleLike(author, searchKeyword, pageRequest);
         };
     }

@@ -267,6 +267,8 @@ export interface components {
         };
         MemberLoginResBody: {
             item?: components["schemas"]["MemberDto"];
+            apiKey?: string;
+            accessToken?: string;
         };
         RsDataMemberLoginResBody: {
             resultCode?: string;
@@ -453,7 +455,7 @@ export interface operations {
     items: {
         parameters: {
             query?: {
-                searchKeywordType?: string;
+                searchKeywordType?: "title" | "content";
                 searchKeyword?: string;
                 page?: number;
                 pageSize?: number;
@@ -618,7 +620,7 @@ export interface operations {
     mine: {
         parameters: {
             query?: {
-                searchKeywordType?: string;
+                searchKeywordType?: "title" | "content";
                 searchKeyword?: string;
                 page?: number;
                 pageSize?: number;

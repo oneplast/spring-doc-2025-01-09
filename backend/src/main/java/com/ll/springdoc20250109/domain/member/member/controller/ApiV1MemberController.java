@@ -1,6 +1,5 @@
 package com.ll.springdoc20250109.domain.member.member.controller;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ll.springdoc20250109.domain.member.member.dto.MemberDto;
 import com.ll.springdoc20250109.domain.member.member.entity.Member;
 import com.ll.springdoc20250109.domain.member.member.service.AuthTokenService;
@@ -62,9 +61,7 @@ public class ApiV1MemberController {
 
     record MemberLoginResBody(
             MemberDto item,
-            @JsonIgnore
             String apiKey,
-            @JsonIgnore
             String accessToken
     ) {
     }

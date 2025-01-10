@@ -9,6 +9,7 @@ import com.ll.springdoc20250109.global.dto.PageDto;
 import com.ll.springdoc20250109.global.exceptions.ServiceException;
 import com.ll.springdoc20250109.global.rq.Rq;
 import com.ll.springdoc20250109.global.rsData.RsData;
+import com.ll.springdoc20250109.global.search.SearchKeywordTypeV1;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -56,7 +57,7 @@ public class ApiV1PostController {
     @Transactional(readOnly = true)
     @Operation(summary = "내 글 다건 조회")
     public PageDto<PostDto> mine(
-            @RequestParam(defaultValue = "title") String searchKeywordType,
+            @RequestParam(defaultValue = "title") SearchKeywordTypeV1 searchKeywordType,
             @RequestParam(defaultValue = "") String searchKeyword,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int pageSize) {
@@ -72,7 +73,7 @@ public class ApiV1PostController {
     @Transactional(readOnly = true)
     @Operation(summary = "공개글 다건 조회")
     public PageDto<PostDto> items(
-            @RequestParam(defaultValue = "title") String searchKeywordType,
+            @RequestParam(defaultValue = "title") SearchKeywordTypeV1 searchKeywordType,
             @RequestParam(defaultValue = "") String searchKeyword,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int pageSize) {
