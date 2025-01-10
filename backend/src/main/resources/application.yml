@@ -31,6 +31,8 @@ spring:
         format_sql: true
         highlight-sql: true
         use_sql_comments: true
+springdoc:
+  default-produces-media-type: "application/json;charset=utf-8"
 logging:
   level:
     org.hibernate.sql: debug
